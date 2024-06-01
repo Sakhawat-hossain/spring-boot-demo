@@ -6,11 +6,24 @@
     <link href="css/styles.css" rel="stylesheet">
   </head>
   <body>
-    <div>
-      <h3>Login in <span th:text="${name}">name</span></h3>
-      <span th:text="${name}">name</span>
-      <input name="username" id="username"/>
-      <input name="password" id="password"/>
+    <div class="center-view">
+      <form th:action="@{/login}" method="post">
+        <div class="login-container">
+          <h3>Login in <span th:text="${pname}">name</span></h3>
+
+          <div style="padding: 8px">
+            <label for="username">Username</label>
+            <input name="username" id="username"/>
+          </div>
+
+          <div style="padding: 8px">
+            <label for="password">Password</label>
+            <input name="password" id="password"/>
+          </div>
+
+          <button type="submit">Submit</button>
+        </div>
+      </form>
     </div>
   </body>
 </html>

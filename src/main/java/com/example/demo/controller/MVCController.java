@@ -16,4 +16,9 @@ public class MVCController {
 
         return "login";
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
 }

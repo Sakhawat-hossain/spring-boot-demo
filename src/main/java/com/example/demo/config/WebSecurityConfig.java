@@ -16,6 +16,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/register").permitAll()
                 .requestMatchers("/", "/home").permitAll()
                 .requestMatchers("/css/*").permitAll()
                 .anyRequest().authenticated()

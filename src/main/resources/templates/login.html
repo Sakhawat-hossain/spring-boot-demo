@@ -9,7 +9,12 @@
     <div class="center-view">
       <form th:action="@{/login}" method="post">
         <div class="login-container">
-          <h3>Login in <span th:text="${pname}">name</span></h3>
+          <h3>Login in <span th:text="${brandName}">name</span></h3>
+
+          <div th:if="${param.error}">
+            Invalid username and password.</div>
+          <div th:if="${param.logout}">
+            You have been logged out.</div>
 
           <div style="padding: 8px">
             <label for="username">Username</label>

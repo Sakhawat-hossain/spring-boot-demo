@@ -1,5 +1,7 @@
 package com.example.demo.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import java.util.Random;
 @Service
 public class UserService {
     private final int SALT_LENGTH = 5;
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     UserRepository userRepository;
 
@@ -35,6 +38,31 @@ public class UserService {
         user.setSalt(salt);
 
         return userRepository.save(user);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User authenticateUser(String username, String password) {
+        if (username == null || password == null) {
+            logger.debug("Username or password is null");
+            return null;
+        }
+
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            logger.debug("User not found");
+            return null;
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches((user.getSalt() + password), user.getPassword())) {
+            logger.debug("Password not matched");
+            return null;
+        }
+
+        return user;
     }
 
     private String getSalt() {

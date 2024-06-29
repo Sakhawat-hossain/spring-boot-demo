@@ -23,11 +23,8 @@ public class MVCController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
-        // ModelAndView mav = new ModelAndView("login");
-        // mav.addObject("name", "Demo Application");
-
-        model.addAttribute("pname", "Demo Application");
+    public String loginPage(Model model) {
+        model.addAttribute("brandName", "Demo Application");
 
         logger.debug("Login page return");
         return "login";
@@ -39,13 +36,13 @@ public class MVCController {
     }
 
     @GetMapping("/register")
-    public String signupPage () {
+    public String registerPage () {
         logger.debug("Register page return");
         return "register";
     }
 
     @PostMapping("/register")
-    public String signupUser (@RequestParam String firstName, @RequestParam String lastName,
+    public String registerUser (@RequestParam String firstName, @RequestParam String lastName,
         @RequestParam String email, @RequestParam String password) {
         logger.debug("FirstName=" + firstName + ", LastName=" + lastName + ", Email=" + email
             + ", Password=" + password);
@@ -58,6 +55,6 @@ public class MVCController {
 
         userService.registerUser(request);
 
-        return "register";
+        return "login";
     }
 }

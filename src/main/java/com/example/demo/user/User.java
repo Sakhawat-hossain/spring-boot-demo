@@ -18,7 +18,7 @@ import java.util.Collection;
 @Table(name = "users")
 public class User implements UserDetails {
     @Transient
-    private static final long serialVersionUID = 100;
+    private static final long serialVersionUID = 102;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +34,9 @@ public class User implements UserDetails {
     private String role;
     private int status;
     @Column(name = "createdAt")
-    private long createdAt;
+    private String createdAt;
     @Column(name = "updatedAt")
-    private long updatedAt;
+    private String updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,5 +67,12 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return status == 1;
+    }
+
+    @Override
+    public String toString() {
+        return "userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+            + ", password=" + password + ", salt=" + salt + ", role=" + role + ", status=" + status
+            + ", updatedAt=" + updatedAt + ", createdAt=" + createdAt;
     }
 }

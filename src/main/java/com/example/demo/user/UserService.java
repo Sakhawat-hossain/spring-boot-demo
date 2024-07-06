@@ -3,7 +3,7 @@ package com.example.demo.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -14,10 +14,12 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User registerUser(RegisterRequest request) {
@@ -30,8 +32,6 @@ public class UserService {
 
         String password = request.getPassword();
         String salt = getSalt();
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(salt + password);
 
         user.setPassword(encodedPassword);
@@ -56,7 +56,6 @@ public class UserService {
             return null;
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!passwordEncoder.matches((user.getSalt() + password), user.getPassword())) {
             logger.debug("Password not matched");
             return null;

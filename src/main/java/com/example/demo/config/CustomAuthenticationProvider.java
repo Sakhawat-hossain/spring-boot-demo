@@ -29,7 +29,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         User user = userService.authenticateUser(username, password);
-        logger.debug("User: " + (user == null ? "null" : user.toString()));
         if (user == null) {
             throw new BadCredentialsException("Username or password is wrong");
         }
